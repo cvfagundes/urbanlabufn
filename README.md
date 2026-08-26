@@ -29,14 +29,6 @@ Quando o download terminar, entre na pasta:
 cd urbanlabufn
 ```
 
-Não cole `cd urbanlabufn` junto com o próximo comando. A linha do terminal deverá mudar para algo semelhante a:
-
-```text
-C:\Users\seu-nome\urbanlabufn>
-```
-
-Depois, abra a pasta `urbanlabufn` no Visual Studio Code.
-
 ## 2. Instalar o projeto
 
 Já dentro da pasta `urbanlabufn`, execute **um comando por vez**, pressionando `Enter` depois de cada um:
