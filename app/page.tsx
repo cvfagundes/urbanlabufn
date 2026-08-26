@@ -59,7 +59,7 @@ export default function Home() {
         data: {
           type: 'Feature',
           properties: { name: 'Área de estudo' },
-          geometry: { type: 'Polygon', coordinates: [[[-53.8208, -29.6902], [-53.8069, -29.6902], [-53.8069, -29.6797], [-53.8208, -29.6797], [-53.8208, -29.6902]]] },
+          geometry: { type: 'Polygon', coordinates: [[[-53.817325, -29.687575], [-53.810375, -29.687575], [-53.810375, -29.682325], [-53.817325, -29.682325], [-53.817325, -29.687575]]] },
         },
       });
       map.addLayer({ id: 'study-area-fill', type: 'fill', source: 'study-area', paint: { 'fill-color': '#176b4a', 'fill-opacity': 0.06 } });
