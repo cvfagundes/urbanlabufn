@@ -17,21 +17,39 @@ Os alunos **não precisam ter uma conta no ChatGPT** para baixar, abrir ou edita
 
 ## 1. Baixar o projeto
 
-Abra o terminal do computador e execute:
+Abra o terminal do computador. Execute **um comando por vez** e pressione `Enter` ao final de cada linha.
 
-```bash
+Primeiro, baixe o projeto:
+
+```bat
 git clone https://github.com/cvfagundes/urbanlabufn.git
+```
+
+Quando o download terminar, entre na pasta:
+
+```bat
 cd urbanlabufn
+```
+
+Não cole `cd urbanlabufn` junto com o próximo comando. A linha do terminal deverá mudar para algo semelhante a:
+
+```text
+C:\Users\seu-nome\urbanlabufn>
 ```
 
 Depois, abra a pasta `urbanlabufn` no Visual Studio Code.
 
 ## 2. Instalar o projeto
 
-No terminal do Visual Studio Code, execute:
+Já dentro da pasta `urbanlabufn`, execute **um comando por vez**, pressionando `Enter` depois de cada um:
 
-```bash
+```bat
 corepack enable
+```
+
+Depois:
+
+```bat
 pnpm install
 ```
 
@@ -41,8 +59,17 @@ Essa instalação é necessária somente na primeira vez ou quando as dependênc
 
 Execute:
 
-```bash
+```bat
 pnpm dev
+```
+
+No Windows, a sequência completa deverá ficar assim:
+
+```text
+C:\Users\seu-nome>cd urbanlabufn
+C:\Users\seu-nome\urbanlabufn>corepack enable
+C:\Users\seu-nome\urbanlabufn>pnpm install
+C:\Users\seu-nome\urbanlabufn>pnpm dev
 ```
 
 Abra [http://localhost:3000](http://localhost:3000) no navegador. Para encerrar o servidor, volte ao terminal e pressione `Ctrl + C`.
