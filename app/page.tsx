@@ -19,13 +19,13 @@ export default function Home(){
  return <main className="app-shell">
   <header className="topbar">
    <div className="brand"><span className="brand-mark">U</span><span>UrbanLab</span><em>BETA</em></div>
-   <div className="project-switcher"><span className="project-avatar">CP</span><div><small>PROJETO ATUAL</small><strong>Centro Expandido · Piracicaba</strong></div><button>⌄</button></div>
+   <div className="project-switcher"><span className="project-avatar">SM</span><div><small>PROJETO ATUAL</small><strong>Área de Estudo · Santa Maria</strong></div><button>⌄</button></div>
    <div className="header-actions"><div className="avatars"><span>MB</span><span>RL</span><span>+4</span></div><button className="icon-button">◎<b>3</b></button><button className="primary" onClick={()=>{setSaved(true);setTimeout(()=>setSaved(false),1800)}}>{saved?'Projeto salvo ✓':'Salvar projeto'}</button><button className="user">AS</button></div>
   </header>
   <section className="workspace">
    <aside className="layers-panel">
     <div className="panel-heading"><div><span>CAMADAS DO PROJETO</span><h1>Modelo urbano</h1></div><button>＋</button></div>
-    <div className="study-card"><div className="study-icon">⌗</div><div><small>ÁREA DE ESTUDO</small><strong>Centro expandido</strong><span>3,42 km² · SIRGAS 2000 / UTM 23S</span></div><button>•••</button></div>
+    <div className="study-card"><div className="study-icon">⌗</div><div><small>ÁREA DE ESTUDO</small><strong>Santa Maria · RS</strong><span>-29.684930, -53.814122 · SIRGAS 2000</span></div><button>•••</button></div>
     <div className="layer-list">{layers.map(l=><div key={l.id} className={`layer-item ${selected===l.id?'selected':''}`} onClick={()=>{setSelected(l.id);setPanel(true)}}>
      <button className={`eye ${visible[l.id]?'on':''}`} onClick={e=>{e.stopPropagation();setVisible(v=>({...v,[l.id]:!v[l.id]}))}}>◉</button><span className="layer-symbol" style={{background:l.color}}>{l.icon}</span><div className="layer-copy"><strong>{l.name}</strong><span>{l.count} · {l.group}</span></div><span className={statusClass(l.status)}>{l.status}</span><button className="more">•••</button>
     </div>)}</div>
@@ -38,10 +38,10 @@ export default function Home(){
     {visible.buildings&&<div className="buildings">{buildings.map(([left,top,width,height],i)=><i key={i} style={{left:`${left}%`,top:`${top}%`,width:`${width}%`,height:`${height}%`}}/>)}</div>}
     {visible.green&&<><div className="park park-one">PARQUE DO MIRANTE</div><div className="park park-two"/></>}
     {visible.equipment&&<><button className="pin pin-one">✦</button><button className="pin pin-two">✚</button><button className="pin pin-three">●</button></>}
-    <div className="study-boundary"><span>Área de estudo · 3,42 km²</span></div>
+    <div className="study-boundary"><span>Área de estudo · Santa Maria</span></div>
     <div className="map-toolbar"><button>↖</button><button>✋</button><button>◇</button><button>⌖</button></div>
     <div className="view-toggle"><button className={mode==='2D'?'active':''} onClick={()=>setMode('2D')}>Mapa 2D</button><button className={mode==='3D'?'active':''} onClick={()=>setMode('3D')}>Modelo 3D</button></div>
-    <div className="map-actions"><button>＋</button><button>−</button><button>⌖</button></div><div className="coordinates">22°43&apos;12.8&quot;S · 47°38&apos;56.2&quot;W <span>escala 1:8.500</span></div><button className="basemap">▦ <span>Mapa base</span></button>
+    <div className="map-actions"><button>＋</button><button>−</button><button>⌖</button></div><div className="coordinates">29°41&apos;05.7&quot;S · 53°48&apos;50.8&quot;W <span>escala 1:8.500</span></div><button className="basemap">▦ <span>Mapa base</span></button>
     {panel&&<aside className="detail-panel"><button className="close" onClick={()=>setPanel(false)}>×</button><div className="detail-title"><span style={{background:active.color}}>{active.icon}</span><div><small>CAMADA SELECIONADA</small><h2>{active.name}</h2></div></div><div className="detail-status"><span className={statusClass(active.status)}>{active.status}</span><span>Atualizada há 18 min</span></div>
      <div className="mini-stats"><div><small>ELEMENTOS</small><strong>{active.count}</strong></div><div><small>RESPONSÁVEL</small><strong>{active.group}</strong></div></div>
      <label>Fonte dos dados<select defaultValue="osm"><option value="osm">OpenStreetMap</option><option>Importação GeoJSON</option><option>Levantamento local</option></select></label><label>Altura padrão<div className="input-unit"><input defaultValue="9,0"/><span>metros</span></div></label><label className="slider-label">Opacidade <span>86%</span><input type="range" defaultValue="86"/></label>
