@@ -23,8 +23,33 @@ export default function Home() {
       attributionControl: false,
     });
     mapRef.current = map;
+    map.dragRotate.disable();
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
     map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-left');
+    const canvas = map.getCanvas();
+    let orbit: { x: number; y: number; bearing: number; pitch: number; pointerId: number } | null = null;
+    const startOrbit = (event: PointerEvent) => {
+      if (event.button !== 2 && !(event.button === 0 && event.ctrlKey)) return;
+      event.preventDefault();
+      orbit = { x: event.clientX, y: event.clientY, bearing: map.getBearing(), pitch: map.getPitch(), pointerId: event.pointerId };
+      canvas.setPointerCapture(event.pointerId);
+      canvas.classList.add('is-orbiting');
+    };
+    const moveOrbit = (event: PointerEvent) => {
+      if (!orbit) return;
+      event.preventDefault();
+      const horizontalSensitivity = 0.12;
+      const verticalSensitivity = 0.08;
+      map.setBearing(orbit.bearing + (event.clientX - orbit.x) * horizontalSensitivity);
+      map.setPitch(Math.max(10, Math.min(80, orbit.pitch - (event.clientY - orbit.y) * verticalSensitivity)));
+    };
+    const stopOrbit = () => { orbit = null; canvas.classList.remove('is-orbiting'); };
+    const preventMenu = (event: MouseEvent) => event.preventDefault();
+    canvas.addEventListener('pointerdown', startOrbit);
+    canvas.addEventListener('pointermove', moveOrbit);
+    canvas.addEventListener('pointerup', stopOrbit);
+    canvas.addEventListener('pointercancel', stopOrbit);
+    canvas.addEventListener('contextmenu', preventMenu);
     map.on('load', () => {
       map.addSource('terrain-dem', { type: 'raster-dem', url: 'https://tiles.mapterhorn.com/tilejson.json', tileSize: 512 });
       map.addLayer({ id: 'terrain-hillshade', type: 'hillshade', source: 'terrain-dem', paint: { 'hillshade-method': 'standard', 'hillshade-shadow-color': '#514837', 'hillshade-highlight-color': '#f3efe5', 'hillshade-accent-color': '#786b53', 'hillshade-exaggeration': 0.38 } });
@@ -62,7 +87,14 @@ export default function Home() {
       setMapReady(true);
     });
     map.on('error', (event) => { if (!event.error?.message?.includes('sprite')) setMapError(true); });
-    return () => { map.remove(); mapRef.current = null; };
+    return () => {
+      canvas.removeEventListener('pointerdown', startOrbit);
+      canvas.removeEventListener('pointermove', moveOrbit);
+      canvas.removeEventListener('pointerup', stopOrbit);
+      canvas.removeEventListener('pointercancel', stopOrbit);
+      canvas.removeEventListener('contextmenu', preventMenu);
+      map.remove(); mapRef.current = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -103,6 +135,7 @@ export default function Home() {
           {mapError && <div className="map-error"><strong>Não foi possível carregar o mapa.</strong><span>Verifique sua conexão e tente novamente.</span></div>}
           <div className="location-chip"><b>Santa Maria · RS</b><span>-29.684930, -53.814122</span></div>
           <div className="map-controls"><div className="view-toggle"><button className={mode === '2D' ? 'active' : ''} onClick={() => setMode('2D')}>Mapa 2D</button><button className={mode === '3D' ? 'active' : ''} onClick={() => setMode('3D')}>Modelo 3D</button></div><button className={`terrain-toggle ${terrainEnabled ? 'active' : ''}`} onClick={() => setTerrainEnabled((value) => !value)} aria-pressed={terrainEnabled}>◒ Topografia</button></div>
+          {mode === '3D' && <div className="orbit-hint">Botão direito ou Ctrl + arrastar para orbitar</div>}
           <div className="coordinates">29°41&apos;05.7&quot;S · 53°48&apos;50.8&quot;W <span>{mode === '3D' ? 'perspectiva 3D' : 'mapa 2D'}</span></div>
         </section>
       </section>
