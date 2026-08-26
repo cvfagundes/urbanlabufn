@@ -29,37 +29,36 @@ Quando o download terminar, entre na pasta:
 cd urbanlabufn
 ```
 
-## 2. Instalar o projeto
+## 2. Abrir o projeto no Windows — modo fácil
 
-Já dentro da pasta `urbanlabufn`, execute **um comando por vez**, pressionando `Enter` depois de cada um:
+Abra a pasta `urbanlabufn` no Explorador de Arquivos e dê dois cliques em:
+
+**`iniciar.bat`**
+
+Na primeira execução, ele instalará automaticamente os componentes do projeto. Depois, iniciará o UrbanLabUFN e abrirá [http://localhost:3000](http://localhost:3000) no navegador.
+
+Não mova o arquivo `iniciar.bat` para fora da pasta do projeto. Para encerrar o site, feche a janela preta do UrbanLabUFN ou pressione `Ctrl + C`.
+
+## 3. Abrir pelo terminal — alternativa
+
+Se preferir usar o terminal, entre na pasta `urbanlabufn` e execute:
 
 ```bat
-corepack enable
+npm install
 ```
 
-Depois:
+Quando a instalação terminar, execute:
 
 ```bat
-pnpm install
-```
-
-Essa instalação é necessária somente na primeira vez ou quando as dependências forem alteradas.
-
-## 3. Abrir o UrbanLabUFN
-
-Execute:
-
-```bat
-pnpm dev
+npm run dev
 ```
 
 No Windows, a sequência completa deverá ficar assim:
 
 ```text
 C:\Users\seu-nome>cd urbanlabufn
-C:\Users\seu-nome\urbanlabufn>corepack enable
-C:\Users\seu-nome\urbanlabufn>pnpm install
-C:\Users\seu-nome\urbanlabufn>pnpm dev
+C:\Users\seu-nome\urbanlabufn>npm install
+C:\Users\seu-nome\urbanlabufn>npm run dev
 ```
 
 Abra [http://localhost:3000](http://localhost:3000) no navegador. Para encerrar o servidor, volte ao terminal e pressione `Ctrl + C`.
@@ -146,7 +145,7 @@ Troque `grupo-mobilidade` pelo nome da sua branch.
 
 Arquivos pequenos, como GeoJSON e CSV, podem ser adicionados ao repositório quando forem necessários ao projeto. Arquivos muito grandes, como GeoTIFF, modelos 3D, imagens de alta resolução e bases completas do OpenStreetMap, devem ser armazenados externamente e documentados com um link.
 
-Nunca envie a pasta `node_modules` ao GitHub; ela é recriada automaticamente pelo comando `pnpm install`.
+Nunca envie a pasta `node_modules` ao GitHub; ela é recriada automaticamente pelo arquivo `iniciar.bat` ou pelo comando `npm install`.
 
 ## Problemas comuns
 
@@ -154,15 +153,15 @@ Confira as versões instaladas:
 
 ```bash
 node --version
-pnpm --version
+npm --version
 git --version
 ```
 
 Se o projeto não abrir depois de uma atualização, tente executar novamente:
 
 ```bash
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 Se aparecer um erro que o grupo não consegue resolver, copie a mensagem completa e informe também qual comando foi executado.
