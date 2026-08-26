@@ -13,8 +13,6 @@ Cada aluno precisa instalar:
 - [Visual Studio Code](https://code.visualstudio.com/)
 - Uma conta gratuita no [GitHub](https://github.com/)
 
-Os alunos **não precisam ter uma conta no ChatGPT** para baixar, abrir ou editar o projeto.
-
 ## 1. Baixar o projeto
 
 Abra o terminal do computador. Execute **um comando por vez** e pressione `Enter` ao final de cada linha.
