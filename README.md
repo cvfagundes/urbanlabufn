@@ -56,6 +56,16 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador. Para encerrar 
 - **3D:** inclina o mapa para visualizar o relevo.
 - **Órbita:** no modo 3D, arraste com o botão direito do mouse ou pressione `Ctrl` enquanto arrasta com o botão esquerdo.
 
+### Editar a altura de uma edificação
+
+1. Clique em **Editar edificações**. O mapa entrará automaticamente no modo 3D.
+2. Clique sobre o volume do prédio que deseja estudar.
+3. Informe a altura proposta em metros no painel lateral.
+4. Clique em **Aplicar altura**. O prédio editado aparecerá em laranja.
+5. Para desfazer a mudança daquele prédio, clique em **Restaurar altura original**.
+
+As alterações ficam salvas somente no navegador do computador utilizado. Clique em **Exportar GeoJSON** para baixar o cenário e compartilhá-lo com o grupo. Use **Importar cenário** para abrir novamente um arquivo exportado pelo UrbanLabUFN.
+
 O mapa inicia próximo às coordenadas `-29.684930, -53.814122`, em Santa Maria. Em código, bibliotecas cartográficas normalmente usam a ordem **longitude, latitude**: `[-53.814122, -29.684930]`.
 
 ## Onde fazer alterações
