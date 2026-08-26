@@ -5,7 +5,7 @@ import maplibregl from 'maplibre-gl';
 
 export default function Home() {
   const [mode, setMode] = useState<'2D' | '3D'>('2D');
-  const [saved, setSaved] = useState(false);
+  const [terrainEnabled, setTerrainEnabled] = useState(true);
   const [mapReady, setMapReady] = useState(false);
   const [mapError, setMapError] = useState(false);
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -26,6 +26,9 @@ export default function Home() {
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
     map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-left');
     map.on('load', () => {
+      map.addSource('terrain-dem', { type: 'raster-dem', url: 'https://tiles.mapterhorn.com/tilejson.json', tileSize: 512 });
+      map.addLayer({ id: 'terrain-hillshade', type: 'hillshade', source: 'terrain-dem', paint: { 'hillshade-method': 'standard', 'hillshade-shadow-color': '#514837', 'hillshade-highlight-color': '#f3efe5', 'hillshade-accent-color': '#786b53', 'hillshade-exaggeration': 0.38 } });
+      map.setTerrain({ source: 'terrain-dem', exaggeration: 1.35 });
       map.addSource('study-area', {
         type: 'geojson',
         data: {
@@ -69,17 +72,22 @@ export default function Home() {
     if (map.getLayer('urbanlab-3d-buildings')) map.setLayoutProperty('urbanlab-3d-buildings', 'visibility', mode === '3D' ? 'visible' : 'none');
   }, [mode, mapReady]);
 
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) return;
+    map.setTerrain(terrainEnabled ? { source: 'terrain-dem', exaggeration: 1.35 } : null);
+    if (map.getLayer('terrain-hillshade')) map.setLayoutProperty('terrain-hillshade', 'visibility', terrainEnabled ? 'visible' : 'none');
+  }, [terrainEnabled, mapReady]);
+
   return (
     <main className="app-shell">
       <header className="topbar">
         <div className="brand"><span className="brand-mark">U</span><span>UrbanLabUFN</span><em>BETA</em></div>
         <div className="project-switcher"><span className="project-avatar">SM</span><div><small>PROJETO ATUAL</small><strong>Área de Estudo · Santa Maria</strong></div></div>
-        <div className="header-actions"><button className="primary" onClick={() => { setSaved(true); setTimeout(() => setSaved(false), 1800); }}>{saved ? 'Projeto salvo ✓' : 'Salvar projeto'}</button><button className="user">AS</button></div>
       </header>
 
       <section className="workspace workspace-clean">
         <aside className="project-panel">
-          <div className="panel-heading"><div><span>PROJETO URBANO</span><h1>Área de estudo</h1></div></div>
           <div className="study-card"><div className="study-icon">⌗</div><div><small>LOCALIZAÇÃO</small><strong>Santa Maria · RS</strong><span>-29.684930, -53.814122</span></div></div>
           <dl className="project-facts">
             <div><dt>Referência espacial</dt><dd>SIRGAS 2000</dd></div>
@@ -94,7 +102,7 @@ export default function Home() {
           {!mapReady && !mapError && <div className="map-loading">Carregando mapa de Santa Maria…</div>}
           {mapError && <div className="map-error"><strong>Não foi possível carregar o mapa.</strong><span>Verifique sua conexão e tente novamente.</span></div>}
           <div className="location-chip"><b>Santa Maria · RS</b><span>-29.684930, -53.814122</span></div>
-          <div className="view-toggle"><button className={mode === '2D' ? 'active' : ''} onClick={() => setMode('2D')}>Mapa 2D</button><button className={mode === '3D' ? 'active' : ''} onClick={() => setMode('3D')}>Modelo 3D</button></div>
+          <div className="map-controls"><div className="view-toggle"><button className={mode === '2D' ? 'active' : ''} onClick={() => setMode('2D')}>Mapa 2D</button><button className={mode === '3D' ? 'active' : ''} onClick={() => setMode('3D')}>Modelo 3D</button></div><button className={`terrain-toggle ${terrainEnabled ? 'active' : ''}`} onClick={() => setTerrainEnabled((value) => !value)} aria-pressed={terrainEnabled}>◒ Topografia</button></div>
           <div className="coordinates">29°41&apos;05.7&quot;S · 53°48&apos;50.8&quot;W <span>{mode === '3D' ? 'perspectiva 3D' : 'mapa 2D'}</span></div>
         </section>
       </section>
