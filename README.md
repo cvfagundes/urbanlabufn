@@ -10,7 +10,6 @@ Cada aluno precisa instalar:
 
 - [Git](https://git-scm.com/downloads)
 - [Node.js](https://nodejs.org/) versão 22.13 ou superior
-- [Visual Studio Code](https://code.visualstudio.com/)
 - Uma conta gratuita no [GitHub](https://github.com/)
 
 ## 1. Baixar o projeto
